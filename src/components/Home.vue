@@ -1,12 +1,21 @@
 <template>
     <div id="fullpage">
         <div class="fullpage-wp" v-fullpage="opts"></div>
-        <div class="section" style="background-image: url(./static/home_top.jpg);">
-            <div class="topshare">
-                <p style="margin: 5px;font-size: 30px;">科建股份</p>
-                <p style="margin: 5px;font-size: 20px;">KeJian Stock</p>
-            </div>
-        </div>
+        <template>
+            <el-carousel :interval="4000" type="card" height="630px">
+                <el-carousel-item v-for="item in pictures" :key="item">
+                    <div class="section" :style="'background:url(' + item +');height: 100%;background-repeat: no-repeat;background-size: 100% 100%;'">
+                        <div class="topshare">
+                            <p style="margin: 120px;font-size: 30px;">LOL</p>
+                            <p style="margin: 5px;font-size: 20px;">DNF</p>
+                        </div>
+                    </div>
+                </el-carousel-item>
+            </el-carousel>
+        </template>
+
+
+
     </div>
 </template>
 
@@ -19,94 +28,15 @@ import "../../static/bli/jquery.fullPage.min.js";
 
 export default {
     name: "Home",
-    data () {
+    data(){
         return {
-            bh: document.documentElement.clientHeight,
-            // 结构复杂 只能定义空数组
-            tableData: [
-                {
-                    Img: "",
-                    Title: "",
-                    Content: "",
-                    CreateTime: ""
-                },
-                {
-                    Img: "",
-                    Title: "",
-                    Content: "",
-                    CreateTime: ""
-                },
-                {
-                    Img: "",
-                    Title: "",
-                    Content: "",
-                    CreateTime: ""
-                }
-            ],
-            tableDataan: [],
-            hometitle: "",
-            hometitlesub: "",
-            hometitlesuben: ""
-        };
-    },
-    mounted () {
-        $("#fullpage").fullpage({
-            //anchors: ['woc', 'anli', 'news'],
-            //scrollingSpeed: 1000,
-            loopBottom: true,
-            navigation: true,
-            navigationPosition: 'right',
-            navigationTooltips: ['科建欢迎您', '经典案例', '新闻资讯'],
-            // afterLoad: function (anchorLink, index) {
-            // },
-            // onLeave: function (index, nextIndex, direction) {
-            // }
-        })
-
-    },
-    methods: {},
-    created () {
-        axios.all(
-            [
-                axios
-                    .get("/news/GetNewsAll", {
-                        params: {
-                            type: 0,
-                            num: 3
-                        }
-                    }),
-                axios
-                    .get("/cases/GetCasesAll"),
-                axios
-                    .get("/DataDictionary/GetDataDictionaryAll", {
-                        params: {
-                            key: "首页主标题,首页副标题,首页副标题英文"
-                        }
-                    })
-            ])
-            .then(axios.spread((a, b, c) => {
-                //全部请求正确时候触发
-                this.tableDataan = b.data;
-                this.hometitle = c.data[0].Content;
-                this.hometitlesub = c.data[1].Content;
-                this.hometitlesuben = c.data[2].Content;
-                this.tableData = a.data;
-                for (let i = a.data.length; i < 3; i++) {
-                    this.tableData.push({
-                        Img: "",
-                        Title: "",
-                        Content: "",
-                        CreateTime: ""
-                    })
-                }
-                let anlis = document.querySelectorAll(".view-first")
-                console.log(anlis.length)
-            }))
-        console.log("xx" + document.documentElement.clientHeight);
-    },
-    destroyed () {
-        document.querySelector('#fullpage').style.transition = 'unset'
-        $.fn.fullpage.destroy('all');
+            pictures:[
+                "http://pzg1wy7g2.bkt.clouddn.com/38bbbbb67803bc7de59789f02008ec80.jpg",
+                "http://pzg1wy7g2.bkt.clouddn.com/36b3ef6211875e2426fd29a7990c3ccb.jpg",
+                "http://pzg1wy7g2.bkt.clouddn.com/d00b8322023065ec3d131465a97214cf.jpg",
+                "http://pzg1wy7g2.bkt.clouddn.com/c7082e9265681eea7963bfe0eff42621.jpg"
+            ]
+        }
     }
 };
 </script>
@@ -925,4 +855,20 @@ p.mousep {
     color: #ffffff;
   }
 }
+.el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 300px;
+    margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
+}
+
 </style>
