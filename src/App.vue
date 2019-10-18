@@ -9,7 +9,7 @@
         <router-view>
         </router-view>
     </transition>
-    <div class="copyright">文龙版权所有</div>
+    <div class="copyright">冷雨版权所有</div>
 </div>
 </template>
 
